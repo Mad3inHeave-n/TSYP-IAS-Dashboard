@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TSYP14 · Zone-Level Compressed-Air Leak Monitor</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b1110;--panel:#121b19;--line:#24342f;--tx:#d6e4df;--mut:#7f968f;--g:#3ddc84;--o:#ff9f1c;--r:#ff4d4d;--b:#4cc9f0;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.5 'JetBrains Mono',ui-monospace,monospace}
+h1,h2,.big{font-family:'Barlow Condensed','Arial Narrow',sans-serif;text-transform:uppercase;letter-spacing:.04em;margin:0}
+header{padding:20px 4vw;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:end}
+h1{font-size:clamp(26px,5vw,44px);line-height:1}h1 span{color:var(--g)}
+.tag{color:var(--mut);font-size:12px}
+main{padding:16px 4vw 40px;display:grid;gap:16px;max-width:1200px;margin:auto}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:16px}
+h2{font-size:20px;color:var(--g);margin-bottom:10px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kpi{border-left:3px solid var(--g);padding:4px 10px}.kpi.o{border-color:var(--o)}.kpi.b{border-color:var(--b)}
+.big{font-size:34px;line-height:1.1}.kpi small{color:var(--mut);display:block;font-size:11px}
+.two{display:grid;grid-template-columns:1.6fr 1fr;gap:16px}@media(max-width:820px){.two{grid-template-columns:1fr}}
+.zones{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;position:relative}
+.zones:before{content:"MAIN HEADER";position:absolute;top:-8px;left:0;font-size:10px;color:var(--mut)}
+.z{background:#0e1614;border:1px solid var(--line);border-radius:4px;padding:8px;cursor:pointer;min-height:92px;transition:.3s}
+.z b{font-size:12px}.z .bar{height:6px;background:#1c2a26;margin:6px 0;border-radius:3px;overflow:hidden}.z .bar i{display:block;height:100%;width:0;background:var(--g);transition:width .6s,background .3s}
+.z .s{font-size:10px;color:var(--mut)}
+.z.prob{border-color:var(--o);box-shadow:0 0 12px #ff9f1c55}.z.test{border-color:var(--b);box-shadow:0 0 12px #4cc9f055}.z.conf{border-color:var(--r);box-shadow:0 0 14px #ff4d4d77}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;align-items:center}
+button,select,input{font:inherit;background:#0e1614;color:var(--tx);border:1px solid var(--line);border-radius:4px;padding:6px 10px}
+button{cursor:pointer;border-color:var(--g);color:var(--g)}button:hover{background:#163026}
+#log{height:230px;overflow:auto;font-size:12px;display:flex;flex-direction:column;gap:4px}
+#log div{border-left:2px solid var(--line);padding-left:8px}#log .o{border-color:var(--o)}#log .r{border-color:var(--r)}#log .b{border-color:var(--b)}#log .g{border-color:var(--g)}
+.flow{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px}
+.st{min-width:128px;flex:1;border:1px solid var(--line);border-radius:4px;padding:8px;background:#0e1614}
+.st.new{border-color:var(--g);background:#14301f}.st.chg{border-color:#7bd88f66;background:#12251b}.st small{color:var(--mut);display:block}
+.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}label{display:block;font-size:11px;color:var(--mut)}
+label input{width:100%;margin-top:2px}
+.res{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px}
+.ch{display:grid;gap:10px}.cr{display:grid;grid-template-columns:110px 1fr 70px;gap:8px;align-items:center;font-size:12px}
+.cb{height:16px;background:#1c2a26;border-radius:3px;overflow:hidden}.cb i{display:block;height:100%;background:linear-gradient(90deg,var(--b),var(--o))}
+.gw{max-width:250px;margin:0 auto 8px}.gw svg{width:100%;display:block;filter:drop-shadow(0 0 10px #000)}
+footer{color:var(--mut);font-size:11px;padding:0 4vw 24px;max-width:1200px;margin:auto}
+</style></head><body>
+<header><div><div class="tag">IAS CHALLENGE · TSYP14 · PHASE 1</div><h1>Zone-Level <span>Compressed-Air</span> Leak Monitor</h1></div>
+<div class="tag">Ultrasonic 40 kHz · Pressure decay · Camera cell<br>Simulated data · TRL 4 target</div></header>
+<main>
+<section class="card"><div class="kpis">
+<div class="kpi o"><div class="big">20–30%</div><small>output lost to leaks (poorly maintained)</small></div>
+<div class="kpi"><div class="big">4.05/5</div><small>Approach C weighted score</small></div>
+<div class="kpi b"><div class="big">67.5 MWh</div><small>energy avoided / yr (illustrative)</small></div>
+<div class="kpi"><div class="big">38.6 t</div><small>CO₂ avoided / yr</small></div>
+<div class="kpi o"><div class="big">2–6 mo</div><small>payback (estimate)</small></div></div></section>
+
+<section class="card"><h2>Live zone monitor · simulator</h2>
+<div class="two"><div>
+<div class="zones" id="zones"></div>
+<div class="row"><select id="sz"><option value="0.3">0.3 mm · 2 bar</option><option value="0.5">0.5 mm · 3 bar</option><option value="1" selected>1 mm · 7 bar</option><option value="3">3 mm · 7 bar</option></select>
+<button id="inj">Inject leak</button><button id="rep">Repair all</button>
+<label style="margin-left:auto">Tariff TND/kWh <input id="tar" type="number" value="0.3" step="0.05" style="width:80px"></label></div>
+<div class="tag" style="margin-top:8px">Flow: ultrasonic level rises (neighbours bleed) → score &gt; 60% = PROBABLE → valve isolates zone → pressure-decay test → CONFIRMED + cost.</div></div>
+<div><div class="gw"><svg id="gg" viewBox="0 0 200 200" font-family="inherit"><circle cx="100" cy="100" r="97" fill="#0a100f" stroke="#3a4d47" stroke-width="4"/><circle cx="100" cy="100" r="92" fill="none" stroke="#1c2a26"/><g id="ga"></g><g id="gt"></g><text x="100" y="128" text-anchor="middle" font-size="9" fill="#7f968f">PRESSURE · BAR</text><text id="gv" x="100" y="155" text-anchor="middle" font-size="22" fill="#3ddc84">7.00</text><text id="gm" x="100" y="172" text-anchor="middle" font-size="8" fill="#7f968f"></text><g id="nd"><polygon points="88,97.5 158,100 88,102.5" fill="#ff4d4d"/><circle cx="100" cy="100" r="7" fill="#2b3a35" stroke="#ff4d4d"/></g></svg></div><div id="log"></div></div></div></section>
+
+<section class="card two" style="grid-template-columns:1fr 1fr">
+<div><h2>Calculated free-air leak flow</h2><div class="ch" id="chart"></div>
+<div class="tag" style="margin-top:8px">Ideal choked flow, Cd 0.6, 20 °C: calculated, not measured.</div></div>
+<div><h2>Impact calculator</h2><div class="cg">
+<label>Compressor kW<input id="kw" type="number" value="75"></label>
+<label>Hours / yr<input id="hr" type="number" value="6000"></label>
+<label>Leak % before<input id="l0" type="number" value="25"></label>
+<label>Leak % after<input id="l1" type="number" value="10"></label>
+<label>TND / kWh<input id="tf" type="number" value="0.3" step="0.05"></label>
+<label>System cost TND<input id="sc" type="number" value="5000"></label></div>
+<div class="res" id="res"></div></div></section>
+
+<section class="card"><h2>TO-BE concept</h2><div class="flow">
+<div class="st"><b>1 Compressor</b><small>unchanged</small></div>
+<div class="st"><b>2 Pipe network</b><small>unchanged</small></div>
+<div class="st new"><b>3 Zone nodes</b><small>continuous monitoring</small></div>
+<div class="st new"><b>4 Isolation test</b><small>valve + decay on alert</small></div>
+<div class="st chg"><b>5 Camera cell</b><small>optional: pump + camera</small></div>
+<div class="st new"><b>6 Dashboard</b><small>zone, kWh, TND/day</small></div>
+<div class="st chg"><b>7 Repair &amp; verify</b><small>re-measure after fix</small></div></div>
+<div class="tag" style="margin-top:8px">Dark green = new · light green = changed · neutral = unchanged. ESP32 → MQTT → Raspberry Pi (OpenCV, SQLite, Telegram).</div></section>
+</main>
+<footer>Figures from the Phase 1 poster; plant data is confidential, so values are published figures and estimates. Leak rate = V·Δp/(p·t); 6.4 kW per m³/min free air [DOE]. Grid factor 0.572 kg CO₂e/kWh.</footer>
+<script>
+const $=id=>document.getElementById(id),N=10,Z=[],FLOW={0.3:1.5,0.5:5.6,1:45,3:406};
+const fmt=(n,d=0)=>n.toLocaleString('en-US',{maximumFractionDigits:d});
+const zc=$('zones');
+for(let i=0;i<N;i++){const d=document.createElement('div');d.className='z';d.innerHTML=`<b>Z${i+1}</b><div class="bar"><i></i></div><div class="s"></div>`;zc.append(d);Z.push({el:d,lvl:20,leak:0,mm:0,st:'ok'});d.onclick=()=>log(`Z${i+1}: ultrasonic ${Z[i].lvl.toFixed(0)}% · state ${Z[i].st}`,'b')}
+function log(t,c=''){const l=$('log'),d=document.createElement('div');d.className=c;d.textContent=new Date().toLocaleTimeString([], {hour12:false})+' '+t;l.prepend(d);while(l.children.length>60)l.lastChild.remove()}
+function cost(mm){const f=FLOW[mm]/1000,kw=f*6.4,kwh=kw*6000,tnd=kw*24*(+$('tar').value);return{kwh,tnd}}
+function draw(){Z.forEach((z,i)=>{const e=z.el;e.className='z '+(z.st=='prob'?'prob':z.st=='test'?'test':z.st=='conf'?'conf':'');
+e.querySelector('i').style.width=Math.min(100,z.lvl)+'%';e.querySelector('i').style.background=z.lvl>60?'var(--o)':'var(--g)';
+e.querySelector('.s').textContent=({ok:'NORMAL',prob:'PROBABLE',test:'DECAY TEST…',conf:'CONFIRMED'})[z.st]+' · '+z.lvl.toFixed(0)+'%'})}
+function tick(){Z.forEach((z,i)=>{let t=22+Math.random()*8;if(z.leak)t+=Math.min(60,15+Math.log10(FLOW[z.mm]*10)*18);
+[i-1,i+1].forEach(j=>{if(Z[j]&&Z[j].leak&&(j%5==0||i%5==0?Math.abs(i-j)==1&&Math.floor(i/5)==Math.floor(j/5):1))t+=Math.min(18,5+Math.log10(FLOW[Z[j].mm]*10)*5)});
+z.lvl+=(t-z.lvl)*.5;
+if(z.leak&&z.st=='ok'&&z.lvl>60){z.st='prob';log(`Z${i+1} PROBABLE leak (score ${z.lvl.toFixed(0)}%) · starting isolation test`,'o');setTimeout(()=>test(i),1500)}});draw()}
+function test(i){const z=Z[i];if(!z.leak)return;DEC={i,t0:Date.now()};z.st='test';log(`Z${i+1} valve closed · pressure decay running`,'b');draw();
+setTimeout(()=>{DEC=null;if(!z.leak){z.st='ok';return}z.st='conf';const c=cost(z.mm);log(`Z${i+1} CONFIRMED · ${FLOW[z.mm]} L/min · ${fmt(c.kwh)} kWh/yr · ${c.tnd.toFixed(1)} TND/day · camera check optional`,'r');draw()},3000)}
+$('inj').onclick=()=>{const f=Z.map((z,i)=>z.leak?-1:i).filter(i=>i>=0);if(!f.length)return;const i=f[Math.random()*f.length|0];Z[i].leak=1;Z[i].mm=$('sz').value;log(`(sim) ${$('sz').value} mm leak injected in Z${i+1}`,'g')};
+$('rep').onclick=()=>{Z.forEach((z,i)=>{if(z.leak){z.leak=0;z.st='ok';log(`Z${i+1} repaired · re-measure OK`,'g')}})};
+setInterval(tick,900);tick();log('Monitoring 10 zones · baseline OK','g');
+const ch=$('chart'),mx=Math.log10(406)+.2;[['0.3 mm · 2 bar',1.5],['0.5 mm · 3 bar',5.6],['1 mm · 7 bar',45],['3 mm · 7 bar',406]].forEach(([n,v])=>{ch.insertAdjacentHTML('beforeend',`<div class="cr"><span>${n}</span><div class="cb"><i style="width:${(Math.log10(v)+.5)/(mx+.5)*100}%"></i></div><span>${v} L/min</span></div>`)});
+function calc(){const k=+$('kw').value,h=+$('hr').value,a=+$('l0').value,b=+$('l1').value,t=+$('tf').value,c=+$('sc').value;
+const e=k*h*(a-b)/100,m=e*t,co=e*.572/1000;$('res').innerHTML=[['kpi',fmt(e/1000,1)+' MWh/yr','energy avoided'],['kpi o',fmt(m)+' TND/yr','savings'],['kpi b',fmt(co,1)+' t CO₂/yr','emissions avoided'],['kpi',m>0?fmt(c/m*12,1)+' months':'–','payback']].map(x=>`<div class="${x[0]}"><div class="big" style="font-size:26px">${x[1]}</div><small>${x[2]}</small></div>`).join('')}
+['kw','hr','l0','l1','tf','sc'].forEach(i=>$(i).oninput=calc);calc();
+var DEC=null,P=7;const ang=v=>135+270*v/10,pt=(r,a)=>[100+r*Math.cos(a*Math.PI/180),100+r*Math.sin(a*Math.PI/180)],NS='http://www.w3.org/2000/svg';
+function arc(a,b,c){const p=pt(84,ang(a)),q=pt(84,ang(b));return `<path d="M${p} A84 84 0 ${ang(b)-ang(a)>180?1:0} 1 ${q}" fill="none" stroke="${c}" stroke-width="6" opacity=".85"/>`}
+$('ga').innerHTML=arc(0,4,'#ff4d4d')+arc(4,6,'#ff9f1c')+arc(6,8,'#3ddc84')+arc(8,10,'#ff4d4d');
+let tk='';for(let v=0;v<=10;v+=.5){const M=v%1==0,a=ang(v),p=pt(M?74:78,a),q=pt(82-6.5*0,a);tk+=`<line x1="${p[0]}" y1="${p[1]}" x2="${pt(70+(M?0:0),a)[0]}" y2="${pt(70,a)[1]}" stroke="#9fb5ae" stroke-width="${M?1.6:.8}"/>`;if(M){const t=pt(58,a);tk+=`<text x="${t[0]}" y="${t[1]}" fill="#d6e4df" font-size="10" text-anchor="middle" dominant-baseline="middle">${v}</text>`}}
+$('gt').innerHTML=tk;
+function gloop(){const sum=Z.reduce((a,z)=>a+(z.leak?FLOW[z.mm]:0),0),base=7-2.8*(1-Math.exp(-sum/120));let t=base;
+if(DEC){const k=Math.min(.6,.15+FLOW[Z[DEC.i].mm]/500);t=base*(1-k*Math.min(1,(Date.now()-DEC.t0)/3000))}
+P+=(t-P)*.07;const v=P+(Math.random()-.5)*.03;$('nd').setAttribute('transform',`rotate(${ang(v)-0} 100 100)`);
+$('gv').textContent=P.toFixed(2);$('gv').setAttribute('fill',P<4?'#ff4d4d':P<6?'#ff9f1c':'#3ddc84');
+$('gm').textContent=DEC?`Z${DEC.i+1} ISOLATED · PRESSURE DECAY`:sum?'HEADER · LEAK LOSS':'HEADER · NOMINAL';requestAnimationFrame(gloop)}
+gloop();
+</script></body></html>
